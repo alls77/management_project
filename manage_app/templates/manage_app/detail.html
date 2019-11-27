@@ -1,0 +1,26 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Details{% endblock %}
+
+{% block content %}
+<h3>Company: {{ company.name }}</h3>
+<h4>Works</h4>
+<ul>
+    {% for work in company.works.all %}
+    <li>{{ work.title }}</li>
+    <h5>Workplaces</h5>
+    <ul>
+        {% for workplace in work.workplaces.all %}
+        <li>{{ workplace.title }}</li>
+        {% if workplace.worker%}
+        <b>Worker</b> -
+        {{ workplace.worker.name }} {{ workplace.worker.surname }}
+        {% else %}
+        <p>No worker</p>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% empty %}
+    <p>No works</p>
+    {% endfor %}
+</ul>
+{% endblock %}
