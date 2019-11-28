@@ -37,17 +37,18 @@ class Work(models.Model):
         return f'{self.company}; work:{self.title} ({self.id})'
 
 
+class Worker(AbstractWorker):
+
+    def __str__(self):
+        return f'{self.name} {self.surname} ({self.id})'
+
+
 class Workplace(models.Model):
     title = models.CharField(max_length=200)
-    work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='workplaces')
+    work = models.ForeignKey(
+        Work, on_delete=models.CASCADE, related_name='workplaces')
+    worker = models.OneToOneField(
+        Worker, blank=True, null=True, on_delete=models.SET_NULL, related_name='workplace')
 
     def __str__(self):
         return f'{self.work}; workplace:{self.title} ({self.id})'
-
-
-class Worker(AbstractWorker):
-    workplace = models.OneToOneField(
-        Workplace, blank=True, null=True, on_delete=models.SET_NULL, related_name='worker')
-
-    def __str__(self):
-        return f'{self.name} ({self.id}); {self.workplace}'
