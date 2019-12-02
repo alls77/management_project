@@ -47,8 +47,36 @@ class Workplace(models.Model):
     title = models.CharField(max_length=200)
     work = models.ForeignKey(
         Work, on_delete=models.CASCADE, related_name='workplaces')
-    worker = models.OneToOneField(
-        Worker, blank=True, null=True, on_delete=models.SET_NULL, related_name='workplace')
+    worker = models.OneToOneField(Worker, blank=True, null=True, on_delete=models.SET_NULL, related_name='workplace')
+
+    STATUS_NEW = 0
+    STATUS_APPROVED = 1
+    STATUS_CANCELLED = 2
+    STATUS_FINISHED = 3
+
+    status = models.IntegerField(choices=(
+        (STATUS_NEW, 'New'),
+        (STATUS_APPROVED, 'Approved'),
+        (STATUS_CANCELLED, 'Cancelled'),
+        (STATUS_FINISHED, 'Finished'))
+    )
 
     def __str__(self):
         return f'{self.work}; workplace:{self.title} ({self.id})'
+
+
+class WorkTime(models.Model):
+    STATUS_NEW = 0
+    STATUS_APPROVED = 1
+    STATUS_CANCELLED = 2
+
+    workplace = models.ForeignKey(Workplace, on_delete=models.PROTECT, related_name='worktimes')
+    worker = models.ForeignKey(Worker, on_delete=models.PROTECT, related_name='workers')
+
+    date_start = models.DateTimeField()
+    date_end = models.DateTimeField()
+    status = models.IntegerField(choices=(
+        (STATUS_NEW, 'New'),
+        (STATUS_APPROVED, 'Approved'),
+        (STATUS_CANCELLED, 'Cancelled'))
+    )
