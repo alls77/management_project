@@ -3,9 +3,6 @@
 
 {% block content %}
 <h3>Worker: {{ worker.name }} {{ worker.surname }}</h3>
-{# Детали для каждого рабочего: на каких работах он работал и список время работы на каждой из них (WorkTime модели) #}
-{# Форма создание WorkTime для выбранной работы #}
-
 <h5>Works</h5>
 <ul>
     {% for workplace in worker.workplaces.all %}
