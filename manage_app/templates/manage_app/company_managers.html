@@ -1,0 +1,14 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Managers{% endblock %}
+
+{% block content %}
+<h5>Managers</h5>
+{% for manager in managers %}
+<p>
+    <b>Manager</b> -
+    {{ manager.name }} {{ manager.surname }}
+</p>
+{% empty %}
+<p>No managers</p>
+{% endfor %}
+{% endblock %}

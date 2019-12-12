@@ -1,0 +1,13 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Create workplace{% endblock %}
+
+{% block content %}
+<h4>Create workplace</h4>
+<div class='form'>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Create">
+    </form>
+</div>
+{% endblock %}

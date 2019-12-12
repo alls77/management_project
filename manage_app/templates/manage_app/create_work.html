@@ -1,0 +1,18 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Create work{% endblock %}
+
+{% block content %}
+<h4>Create work</h4>
+<div class='form'>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+            {{field}}
+        </div>
+        {% endfor %}
+        <input type="submit" value="Create">
+    </form>
+</div>
+{% endblock %}

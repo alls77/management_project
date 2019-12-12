@@ -1,8 +1,21 @@
 from django.db import models
 
+STATUSES = {
+    'NEW': 0,
+    'APPROVED': 1,
+    'CANCELLED': 2,
+    'FINISHED': 3
+}
 
-class AbstractWorker(models.Model):
-    name = models.CharField(max_length=100)
+
+class AbstractNameEntity(models.Model):
+    name = models.CharField(max_length=200)
+
+    class Meta:
+        abstract = True
+
+
+class AbstractWorker(AbstractNameEntity):
     surname = models.CharField(max_length=100)
     birth_date = models.DateField(null=True)
 
@@ -10,73 +23,59 @@ class AbstractWorker(models.Model):
         abstract = True
 
 
-class Company(models.Model):
-    name = models.CharField("company's name", max_length=100)
+class Company(AbstractNameEntity):
+    class Meta:
+        verbose_name_plural = "Companies"
 
     def __str__(self):
         return f'Company: {self.name} ({self.id})'
 
-    class Meta:
-        verbose_name_plural = "Companies"
-
 
 class Manager(AbstractWorker):
-    company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, related_name='managers')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='managers')
 
     def __str__(self):
         return f'{self.company}; manager:{self.name} ({self.id})'
 
 
-class Work(models.Model):
-    title = models.CharField(max_length=200)
-    company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, related_name='works')
+class Work(AbstractNameEntity):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='works')
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.company}; work:{self.title} ({self.id})'
+        return f'{self.company}; work:{self.name} ({self.id})'
 
 
 class Worker(AbstractWorker):
-
     def __str__(self):
         return f'{self.name} {self.surname} ({self.id})'
 
 
-class Workplace(models.Model):
-    title = models.CharField(max_length=200)
-    work = models.ForeignKey(
-        Work, on_delete=models.CASCADE, related_name='workplaces')
-    worker = models.OneToOneField(Worker, blank=True, null=True, on_delete=models.SET_NULL, related_name='workplace')
-
-    STATUS_NEW = 0
-    STATUS_APPROVED = 1
-    STATUS_CANCELLED = 2
-    STATUS_FINISHED = 3
-
+class Workplace(AbstractNameEntity):
+    work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='workplaces')
+    worker = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.SET_NULL, related_name='workplaces')
     status = models.IntegerField(choices=(
-        (STATUS_NEW, 'New'),
-        (STATUS_APPROVED, 'Approved'),
-        (STATUS_CANCELLED, 'Cancelled'),
-        (STATUS_FINISHED, 'Finished'))
-    )
+        (STATUSES['NEW'], 'New'),
+        (STATUSES['APPROVED'], 'Approved'),
+        (STATUSES['CANCELLED'], 'Cancelled'),
+        (STATUSES['FINISHED'], 'Finished')), blank=True, null=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['worker', 'status'], name='unique_worker')]
 
     def __str__(self):
-        return f'{self.work}; workplace:{self.title} ({self.id})'
+        return f'{self.work}; workplace:{self.name} ({self.id})'
 
 
 class WorkTime(models.Model):
-    STATUS_NEW = 0
-    STATUS_APPROVED = 1
-    STATUS_CANCELLED = 2
-
     workplace = models.ForeignKey(Workplace, on_delete=models.PROTECT, related_name='worktimes')
-    worker = models.ForeignKey(Worker, on_delete=models.PROTECT, related_name='workers')
-
+    worker = models.ForeignKey(Worker, on_delete=models.PROTECT, related_name='worktimes')
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()
     status = models.IntegerField(choices=(
-        (STATUS_NEW, 'New'),
-        (STATUS_APPROVED, 'Approved'),
-        (STATUS_CANCELLED, 'Cancelled'))
-    )
+        (STATUSES['NEW'], 'New'),
+        (STATUSES['APPROVED'], 'Approved'),
+        (STATUSES['CANCELLED'], 'Cancelled')), default=STATUSES['NEW'])
+
+    def __str__(self):
+        return f'{self.worker}; {self.date_start} {self.date_end})'

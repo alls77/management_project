@@ -1,0 +1,26 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Details{% endblock %}
+
+{% block content %}
+<h3>Worker: {{ worker.name }} {{ worker.surname }}</h3>
+{# Детали для каждого рабочего: на каких работах он работал и список время работы на каждой из них (WorkTime модели) #}
+{# Форма создание WorkTime для выбранной работы #}
+
+<h5>Works</h5>
+<ul>
+    {% for workplace in worker.workplaces.all %}
+    <li>{{ workplace.name }}</li>
+    <h6><b>Time</b></h6>
+    <ul>
+        {% for worktime in workplace.worktimes.all %}
+        <li>{{ worktime.date_start }} {{ worktime.date_end }}</li>
+        {%  empty %}
+        <p>No worktimes</p>
+        {% endfor %}
+    </ul>
+    <h6><a href="{% url 'create_worktime' pk=worker.id work_id=workplace.id %}">Create new worktime</a></h6>
+    {% empty %}
+    <p>No workplaces</p>
+    {% endfor %}
+</ul>
+{% endblock %}

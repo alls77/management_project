@@ -1,17 +1,16 @@
 {% extends 'manage_app/layout.html' %}
-{% block title %}Details{% endblock %}
+{% block title %}Works{% endblock %}
 
 {% block content %}
-<h3>Company: {{ company.name }}</h3>
-<h4>Works</h4>
+<h5>Works</h5>
 <ul>
-    {% for work in company.works.all %}
-    <li>{{ work.title }}</li>
-    <h5>Workplaces</h5>
+    {% for work in works %}
+    <li>{{ work.name }}</li>
+    <h6><b>Workplaces</b></h6>
     <ul>
         {% for workplace in work.workplaces.all %}
-        <li>{{ workplace.title }}</li>
-        {% if workplace.worker%}
+        <li>{{ workplace.name }}</li>
+        {% if workplace.worker %}
         <b>Worker</b> -
         {{ workplace.worker.name }} {{ workplace.worker.surname }}
         {% else %}
@@ -23,4 +22,5 @@
     <p>No works</p>
     {% endfor %}
 </ul>
+<h5><a href="{% url 'create_work' company_id %}">Create new work</a></h5>
 {% endblock %}

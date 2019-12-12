@@ -1,0 +1,13 @@
+{% extends 'manage_app/layout.html' %}
+{% block title %}Worker appointment{% endblock %}
+
+{% block content %}
+<div class="form">
+    <h4>Worker appointment</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Appointment">
+    </form>
+</div>
+{% endblock %}
