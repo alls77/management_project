@@ -29,7 +29,7 @@ class CompaniesViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["companies"])
-        self.assertEqual(response.context["companies"][0], self.company)
+        self.assertEqual(response.context["companies"].last(), self.company)
 
 
 class CompanyDetailsViewTest(TestCase):
