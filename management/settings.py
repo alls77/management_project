@@ -11,10 +11,17 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import logging
+
+from django.utils.log import DEFAULT_LOGGING
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -26,7 +33,6 @@ SECRET_KEY = 'zhfw5m46+^-q0vb+k5@el-v*mqlg6&zyt6s7ffegue1+wc7+gc'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
 
 # Application definition
 
@@ -71,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'management.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -81,7 +86,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -101,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -115,8 +118,35 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+sentry_logging = LoggingIntegration(
+    level=logging.DEBUG,
+    event_level=logging.DEBUG
+)
+
+sentry_sdk.init(
+    dsn="https://2034d7aed2c146ddbb2f342f491cdc99@sentry.io/1861349",
+    integrations=[sentry_logging],
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'sentry': {
+            'level': 'DEBUG',
+            'class': 'sentry_sdk.integrations.logging.BreadcrumbHandler',
+        }
+    },
+    'loggers': {
+        'sentry_logger': {
+            'handlers': ['sentry'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}

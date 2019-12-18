@@ -1,9 +1,13 @@
+import logging
+
 from django.shortcuts import get_object_or_404
-from django.urls import reverse, reverse_lazy
-from django.views.generic import (TemplateView, ListView, DetailView, FormView, CreateView, UpdateView)
+from django.urls import reverse_lazy
+from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView)
 
 from .models import Company, Manager, Work, Worker, Workplace, STATUSES
 from .forms import WorkCreateForm, WorkTimeCreateForm, WorkplaceCreateForm
+
+sentry_logger = logging.getLogger('sentry_logger')
 
 
 class IndexView(TemplateView):
@@ -35,6 +39,7 @@ class CreateWorkView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        sentry_logger.info("new work created", extra={'work_name': self.request.POST['name']})
         return super().form_valid(form)
 
 
@@ -63,6 +68,7 @@ class CreateWorkTimeView(CreateView):
         self.object = form.save(commit=False)
         self.object.worker = get_object_or_404(Worker, id=self.kwargs['pk'])
         self.object.workplace = get_object_or_404(Workplace, id=self.kwargs['work_id'])
+        sentry_logger.info("new worktime created")
         return super().form_valid(form)
 
 
@@ -85,6 +91,7 @@ class CreateWorkplaceView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        sentry_logger.info("new workplace created", extra={'workplace_name': self.request.POST['name']})
         return super().form_valid(form)
 
 
@@ -100,4 +107,5 @@ class UpdateWorkplaceView(UpdateView):
         if self.request.POST['worker']:
             self.object = form.save(commit=False)
             self.object.status = STATUSES['NEW']
+            sentry_logger.info("workplace updated")
             return super().form_valid(form)
