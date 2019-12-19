@@ -28,7 +28,7 @@ class CompaniesViewTest(TestCase):
     def test_companies_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["companies"])
+        self.assertIsNotNone(response.context["companies"])
         self.assertEqual(response.context["companies"].last(), self.company)
 
 
@@ -44,7 +44,7 @@ class CompanyDetailsViewTest(TestCase):
     def test_company_details_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["company"])
+        self.assertIsNotNone(response.context["company"])
 
     def test_company_details_view_negative(self):
         response = self.client.get(reverse('detail', kwargs={'pk': 2}))
@@ -68,7 +68,7 @@ class CompanyManagersViewTest(TestCase):
     def test_company_managers_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["managers"])
+        self.assertIsNotNone(response.context["managers"])
 
 
 class CreateWorkViewTest(TestCase):
