@@ -9,5 +9,6 @@
     {% empty %}
     <p>No workers</p>
     {% endfor %}
+    <p><a href="{% url 'create_workers'%}">Create workers</a></p>
 </ul>
 {% endblock %}

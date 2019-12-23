@@ -1,11 +1,12 @@
 import logging
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView)
+from django.views.generic import (View, TemplateView, ListView, DetailView, CreateView, UpdateView)
 
 from .models import Company, Manager, Work, Worker, Workplace, STATUSES
 from .forms import WorkCreateForm, WorkTimeCreateForm, WorkplaceCreateForm
+from management.celery_app import app
 
 sentry_logger = logging.getLogger('sentry_logger')
 
@@ -55,6 +56,14 @@ class WorkersView(ListView):
     template_name = 'manage_app/workers.html'
     model = Worker
     context_object_name = 'workers'
+
+
+class CreateWorkersView(View):
+    def get(self, request):
+        app.send_task('manage_app.tasks.create_workers')
+        app.send_task('manage_app.tasks.create_statistics')
+        app.send_task('manage_app.tasks.send_message')
+        return redirect(reverse_lazy('workers'), )
 
 
 class CreateWorkTimeView(CreateView):

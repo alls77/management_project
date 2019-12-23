@@ -12,6 +12,7 @@ urlpatterns = [
     path('works/<int:work_id>/create_workplace/', views.CreateWorkplaceView.as_view(), name='create_workplace'),
 
     path('workers/', views.WorkersView.as_view(), name='workers'),
+    path('workers/create_workers/', views.CreateWorkersView.as_view(), name='create_workers'),
     path('workers/<int:pk>/', views.WorkersDetailsView.as_view(), name='worker_detail'),
     path('workers/<int:pk>/<int:work_id>/', views.CreateWorkTimeView.as_view(), name='create_worktime'),
 ]

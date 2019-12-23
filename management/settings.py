@@ -19,6 +19,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -149,4 +150,23 @@ LOGGING = {
             'propagate': False,
         },
     },
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Kiev'
+CELERY_BEAT_SCHEDULE = {
+    'create_statistics': {
+        'task': 'manage_app.tasks.create_statistics',
+        'schedule': crontab(hour=7, minute=0, day_of_week=1),
+    },
+}
+CELERY_TASK_ROUTES = {
+    'manage_app.tasks.create_workers': {'queue': 'create_workers'},
+    'manage_app.tasks.send_message': {'queue': 'send_message'},
 }
