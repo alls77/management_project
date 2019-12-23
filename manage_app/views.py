@@ -61,8 +61,6 @@ class WorkersView(ListView):
 class CreateWorkersView(View):
     def get(self, request):
         app.send_task('manage_app.tasks.create_workers')
-        app.send_task('manage_app.tasks.create_statistics')
-        app.send_task('manage_app.tasks.send_message')
         return redirect(reverse_lazy('workers'), )
 
 
