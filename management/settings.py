@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'manage_app.apps.ManageAppConfig',
+    'auth_app.apps.AuthAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = 'companies'
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'index'
 
 sentry_logging = LoggingIntegration(
     level=logging.DEBUG,

@@ -9,18 +9,12 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'manage_app/style.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+          integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{% url 'index' %}">Management Project</a>
-    <a class="navbar-brand" href="{% url 'companies' %}">Companies</a>
-    <a class="navbar-brand" href="{% url 'workers' %}">Workers</a>
-    {% if user.is_authenticated %}
-        <a class="navbar-brand" href="{% url 'logout' %}">Log out</a>
-    {% else %}
-        <a class="navbar-brand" href="{% url 'login' %}">Log in</a>
-    {% endif %}
 </nav>
 <div class="container">
     <div class="row">
