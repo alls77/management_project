@@ -27,7 +27,7 @@ def create_workers(url='https://jsonplaceholder.typicode.com/users'):
 def create_statistics(days=7):
     start_date = datetime.date.today() - datetime.timedelta(days=days)
 
-    for workplace in Workplace.objects.filter(status=STATUSES['APPROVED']):
+    for workplace in Workplace.objects.filter(status=STATUSES['APPROVED']).prefetch_related('worktimes'):
         worktimes = workplace.worktimes.filter(date_start__gte=start_date)
 
         hours_worked = datetime.timedelta(days=0)
