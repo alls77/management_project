@@ -1,6 +1,7 @@
 {% extends 'manage_app/layout.html' %}
-{% block title %}Index{% endblock %}
+{% load i18n %}
+{% block title %}{%  trans 'Index' %}{% endblock %}
 
 {% block content %}
-<h3>Index Page</h3>
+    <h3>{%  trans 'Index Page' %}</h3>
 {% endblock %}

@@ -24,11 +24,13 @@ class CompaniesView(LoginRequiredMixin, ListView):
 
 class CompanyDetailsView(UserPassesTestMixin, DetailView):
     template_name = 'manage_app/company_detail.html'
-    model = Company
     context_object_name = 'company'
 
     def test_func(self):
         return self.request.user.groups.filter(name='Reviewers').exists()
+
+    def get_queryset(self):
+        return Company.objects.prefetch_related('works__workplaces__worker')
 
 
 class CreateWorkView(CreateView):
@@ -85,8 +87,10 @@ class CreateWorkTimeView(CreateView):
 
 class WorkersDetailsView(DetailView):
     template_name = 'manage_app/worker_detail.html'
-    model = Worker
     context_object_name = 'worker'
+
+    def get_queryset(self):
+        return Worker.objects.prefetch_related('workplaces__worktimes')
 
 
 class CreateWorkplaceView(CreateView):
@@ -102,7 +106,7 @@ class CreateWorkplaceView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        sentry_logger.info("new workplace created", extra={'workplace_name': self.request.POST['name']})
+        sentry_logger.info("workplace created", extra={'workplace_name': self.request.POST['name']})
         return super().form_valid(form)
 
 

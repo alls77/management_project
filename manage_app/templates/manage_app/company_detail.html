@@ -1,32 +1,33 @@
 {% extends 'manage_app/layout.html' %}
-{% block title %}Details{% endblock %}
+{% load i18n %}
+{% block title %}{%  trans 'Details' %}{% endblock %}
 
 {% block content %}
-<h3>Company: {{ company.name }}</h3>
-<h5><a href="{% url 'managers' company.id %}">Managers</a></h5>
-<h5>Works</h5>
-<ul>
-    {% for work in company.works.all %}
-    <li>{{ work.name }}</li>
-    <h6><b>Workplaces</b></h6>
+    <h3>{%  trans 'Company: ' %}{{ company.name }}</h3>
+    <h5><a href="{% url 'managers' company.id %}">{%  trans 'Managers' %}</a></h5>
+    <h5>{%  trans 'Works' %}</h5>
     <ul>
-        {% for workplace in work.workplaces.all %}
-        <li>{{ workplace.name }}</li>
-        {% if workplace.worker %}
-        <b>Worker</b> -
-        {{ workplace.worker.name }} {{ workplace.worker.surname }}
-        {% else %}
-        <p>No worker</p>
-        <p><a href="{% url 'worker_appointment' pk=workplace.id %}">Appoint</a></p>
-        {% endif %}
+        {% for work in company.works.all %}
+            <li>{{ work.name }}</li>
+            <h6><b>{%  trans 'Workplaces' %}</b></h6>
+            <ul>
+                {% for workplace in work.workplaces.all %}
+                    <li>{{ workplace.name }}</li>
+                    {% if workplace.worker %}
+                        <b>{%  trans 'Worker' %}</b> -
+                        {{ workplace.worker.name }} {{ workplace.worker.surname }}
+                    {% else %}
+                        <p>{%  trans 'No worker' %}</p>
+                        <p><a href="{% url 'worker_appointment' pk=workplace.id %}">{%  trans 'Appoint' %}</a></p>
+                    {% endif %}
+                {% empty %}
+                    <p>{%  trans 'No workplaces' %}</p>
+                    <p><a href="{% url 'create_workplace' work.id %}">{%  trans 'Create workplace' %}</a></p>
+                {% endfor %}
+            </ul>
         {% empty %}
-        <p>No workplaces</p>
-        <p><a href="{% url 'create_workplace' work.id %}">Create workplace</a></p>
+            <p>{%  trans 'No works' %}</p>
         {% endfor %}
     </ul>
-    {% empty %}
-    <p>No works</p>
-    {% endfor %}
-</ul>
-<h5><a href="{% url 'create_work' company.id %}">Create new work</a></h5>
+    <h5><a href="{% url 'create_work' company.id %}">{%  trans 'Create new work' %}</a></h5>
 {% endblock %}
