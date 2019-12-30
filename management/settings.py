@@ -35,6 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,8 +50,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -111,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -123,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 
 sentry_logging = LoggingIntegration(
     level=logging.DEBUG,
@@ -166,7 +170,9 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=7, minute=0, day_of_week=1),
     },
 }
-CELERY_TASK_ROUTES = {
+CELERY_ROUTES = {
     'manage_app.tasks.create_workers': {'queue': 'create_workers'},
     'manage_app.tasks.send_message': {'queue': 'send_message'},
 }
+
+
