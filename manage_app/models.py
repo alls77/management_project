@@ -2,6 +2,7 @@ from django.db import models
 
 from .abstract_models import AbstractNameEntity, AbstractWorker, AbstractEmailEntity, AbstractTimeRangeEntity
 
+
 STATUSES = {
     'NEW': 0,
     'APPROVED': 1,

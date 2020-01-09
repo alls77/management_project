@@ -1,14 +1,14 @@
 {% extends 'manage_app/layout.html' %}
 {% load i18n %}
-{% block title %}{%  trans 'Companies' %}{% endblock %}
+{% block title %}{% trans 'Companies' %}{% endblock %}
 
 {% block content %}
-    <h3>{%  trans 'Companies' %}</h3>
+    <h3>{% trans 'Companies' %}</h3>
     <ul>
         {% for company in companies %}
             <li><a href="{% url 'detail' company.id %}">{{ company.name }}</a></li>
         {% empty %}
-            <p>{%  trans 'No companies' %}</p>
+            <p>{% trans 'No companies' %}</p>
         {% endfor %}
     </ul>
 {% endblock %}

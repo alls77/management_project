@@ -14,4 +14,17 @@
         {% endfor %}
         <p><a href="{% url 'create_workers' %}">{% trans 'Create workers' %}</a></p>
     </ul>
+
+    <script>
+        var workerSocket = new WebSocket('ws://' + window.location.host + '/ws/workers/');
+        workerSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            if (data['update']) {
+                document.location.reload();
+            }
+        };
+        workerSocket.onclose = function (e) {
+            console.error('Socket closed unexpectedly');
+        };
+    </script>
 {% endblock %}
