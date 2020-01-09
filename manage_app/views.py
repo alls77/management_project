@@ -1,13 +1,19 @@
 import logging
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (View, TemplateView, ListView, DetailView, CreateView, UpdateView)
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import View, TemplateView, ListView, DetailView, CreateView, UpdateView
 
-from .models import Company, Manager, Work, Worker, Workplace, STATUSES
-from .forms import WorkCreateForm, WorkTimeCreateForm, WorkplaceCreateForm
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from management.celery_app import app
+from .forms import WorkCreateForm, WorkTimeCreateForm, WorkplaceCreateForm
+from .models import STATUSES
+from .permissions import IsReviewer
+from .serializers import *
 
 sentry_logger = logging.getLogger('sentry_logger')
 
@@ -124,3 +130,58 @@ class UpdateWorkplaceView(UpdateView):
             self.object.status = STATUSES['NEW']
             sentry_logger.info("workplace updated")
             return super().form_valid(form)
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CompanySerializer
+        return CompanyDetailSerializer
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = (permissions.IsAuthenticated,)
+        else:
+            permission_classes = (permissions.IsAuthenticated, IsReviewer,)
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['get'])
+    def managers(self, request):
+        company = self.get_object()
+        managers = Manager.objects.filter(company=company)
+        serializer = ManagerSerializer(managers, many=True)
+        return Response(serializer.data)
+
+
+class WorkerViewSet(viewsets.ModelViewSet):
+    queryset = Worker.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return WorkerSerializer
+        return WorkerDetailSerializer
+
+
+class WorkViewSet(viewsets.ModelViewSet):
+    queryset = Work.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return WorkSerializer
+        return WorkDetailSerializer
+
+
+class WorkplaceViewSet(viewsets.ModelViewSet):
+    queryset = Workplace.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return WorkplaceSerializer
+        return WorkplaceDetailSerializer
+
+
+class ManagerViewSet(viewsets.ModelViewSet):
+    queryset = Manager.objects.all()
+    serializer_class = ManagerSerializer

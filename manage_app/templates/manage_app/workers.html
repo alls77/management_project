@@ -1,14 +1,17 @@
 {% extends 'manage_app/layout.html' %}
-{% block title %}Workers{% endblock %}
+{% load i18n %}
+{% block title %}{% trans 'Workers' %}{% endblock %}
 
 {% block content %}
-<h3>Workers</h3>
-<ul>
-    {% for worker in workers %}
-    <li><a href="{% url 'worker_detail' worker.id %}">{{ worker.name }} {{ worker.surname }} {{worker.id}}</a></li>
-    {% empty %}
-    <p>No workers</p>
-    {% endfor %}
-    <p><a href="{% url 'create_workers'%}">Create workers</a></p>
-</ul>
+    <h3>{% trans 'Workers' %}</h3>
+    <ul>
+        {% for worker in workers %}
+            <li>
+                <a href="{% url 'worker_detail' worker.id %}">{{ worker.name }} {{ worker.surname }}</a>
+            </li>
+        {% empty %}
+            <p>{% trans 'No workers' %}</p>
+        {% endfor %}
+        <p><a href="{% url 'create_workers' %}">{% trans 'Create workers' %}</a></p>
+    </ul>
 {% endblock %}

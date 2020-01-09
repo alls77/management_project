@@ -1,6 +1,17 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 
 from . import views
+
+
+router = DefaultRouter()
+
+router.register(r'company', views.CompanyViewSet, basename='company')
+router.register(r'worker', views.WorkerViewSet, basename='worker')
+router.register(r'work', views.WorkViewSet, basename='work')
+router.register(r'workplace', views.WorkplaceViewSet, basename='workplace')
+router.register(r'manager', views.ManagerViewSet, basename='manager')
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
@@ -16,4 +27,7 @@ urlpatterns = [
     path('workers/create_workers/', views.CreateWorkersView.as_view(), name='create_workers'),
     path('workers/<int:pk>/', views.WorkersDetailsView.as_view(), name='worker_detail'),
     path('workers/<int:pk>/works/<int:work_id>/', views.CreateWorkTimeView.as_view(), name='create_worktime'),
+
+    path('api/', include(router.urls)),
+    path('api_auth/', obtain_auth_token, name='api_auth')
 ]

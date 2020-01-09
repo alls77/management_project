@@ -1,23 +1,26 @@
 {% extends 'manage_app/layout.html' %}
-{% block title %}Details{% endblock %}
+{% load i18n %}
+{% block title %}{% trans 'Details' %}{% endblock %}
 
 {% block content %}
-<h3>Worker: {{ worker.name }} {{ worker.surname }}</h3>
-<h5>Works</h5>
-<ul>
-    {% for workplace in worker.workplaces.all %}
-    <li>{{ workplace.name }}</li>
-    <h6><b>Time</b></h6>
+    <h3>{% trans 'Worker' %}: {{ worker.name }} {{ worker.surname }}</h3>
+    <h5>{% trans 'Works' %}</h5>
     <ul>
-        {% for worktime in workplace.worktimes.all %}
-        <li>{{ worktime.date_start }} {{ worktime.date_end }}</li>
-        {%  empty %}
-        <p>No worktimes</p>
+        {% for workplace in worker.workplaces.all %}
+            <li>{{ workplace.name }}</li>
+            <h6><b>{% trans 'Time' %}</b></h6>
+            <ul>
+                {% for worktime in workplace.worktimes.all %}
+                    <li>{{ worktime.date_start }} {{ worktime.date_end }}</li>
+                {% empty %}
+                    <p>{% trans 'No worktimes' %}</p>
+                {% endfor %}
+            </ul>
+            <h6>
+                <a href="{% url 'create_worktime' pk=worker.id work_id=workplace.id %}">{% trans 'Create new worktime' %}</a>
+            </h6>
+        {% empty %}
+            <p>{% trans 'No workplaces' %}</p>
         {% endfor %}
     </ul>
-    <h6><a href="{% url 'create_worktime' pk=worker.id work_id=workplace.id %}">Create new worktime</a></h6>
-    {% empty %}
-    <p>No workplaces</p>
-    {% endfor %}
-</ul>
 {% endblock %}

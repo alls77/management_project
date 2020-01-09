@@ -1,0 +1,161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-30 04:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: templates/manage_app/companies.html:3 templates/manage_app/companies.html:6
+#: templates/manage_app/layout.html:19
+msgid "Companies"
+msgstr "Компании"
+
+#: templates/manage_app/companies.html:11
+msgid "No companies"
+msgstr "Нет компаний"
+
+#: templates/manage_app/company_detail.html:3
+#: templates/manage_app/worker_detail.html:3
+msgid "Details"
+msgstr "Детали"
+
+#: templates/manage_app/company_detail.html:6
+msgid "Company: "
+msgstr "Компания: "
+
+#: templates/manage_app/company_detail.html:7
+#: templates/manage_app/company_managers.html:3
+#: templates/manage_app/company_managers.html:6
+msgid "Managers"
+msgstr "Менеджеры"
+
+#: templates/manage_app/company_detail.html:8
+#: templates/manage_app/company_works.html:3
+#: templates/manage_app/company_works.html:6
+#: templates/manage_app/worker_detail.html:7
+msgid "Works"
+msgstr "Работы"
+
+#: templates/manage_app/company_detail.html:12
+#: templates/manage_app/company_works.html:10
+msgid "Workplaces"
+msgstr "Рабочие места"
+
+#: templates/manage_app/company_detail.html:17
+#: templates/manage_app/company_works.html:15
+#: templates/manage_app/worker_detail.html:6
+msgid "Worker"
+msgstr "Работник"
+
+#: templates/manage_app/company_detail.html:20
+#: templates/manage_app/company_works.html:18
+msgid "No worker"
+msgstr "Нет работника"
+
+#: templates/manage_app/company_detail.html:21
+msgid "Appoint"
+msgstr "Назначить"
+
+#: templates/manage_app/company_detail.html:24
+#: templates/manage_app/worker_detail.html:23
+msgid "No workplaces"
+msgstr "Нет рабочих мест"
+
+#: templates/manage_app/company_detail.html:25
+#: templates/manage_app/create_workplace.html:3
+#: templates/manage_app/create_workplace.html:6
+msgid "Create workplace"
+msgstr "Создать рабочее место"
+
+#: templates/manage_app/company_detail.html:29
+#: templates/manage_app/company_works.html:23
+msgid "No works"
+msgstr "Нет работ"
+
+#: templates/manage_app/company_detail.html:32
+#: templates/manage_app/company_works.html:26
+msgid "Create new work"
+msgstr "Создать новую работу"
+
+#: templates/manage_app/company_managers.html:9
+msgid "Manager"
+msgstr "Менеджер"
+
+#: templates/manage_app/company_managers.html:13
+msgid "No managers"
+msgstr "Нет менеджеров"
+
+#: templates/manage_app/create_work.html:3
+#: templates/manage_app/create_work.html:6
+msgid "Create work"
+msgstr "Создать работу"
+
+#: templates/manage_app/create_worktime.html:3
+#: templates/manage_app/create_worktime.html:6
+msgid "Create worktime"
+msgstr "Установить время работы"
+
+#: templates/manage_app/index.html:3
+msgid "Index"
+msgstr "Index"
+
+#: templates/manage_app/index.html:6
+msgid "Index Page"
+msgstr "Начальная страница"
+
+#: templates/manage_app/layout.html:18
+msgid "Management Project"
+msgstr "Management Project"
+
+#: templates/manage_app/layout.html:20 templates/manage_app/workers.html:3
+#: templates/manage_app/workers.html:6
+msgid "Workers"
+msgstr "Работники"
+
+#: templates/manage_app/layout.html:22
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/manage_app/layout.html:24
+msgid "Log in"
+msgstr "Войти"
+
+#: templates/manage_app/update_workplace.html:3
+#: templates/manage_app/update_workplace.html:7
+msgid "Worker appointment"
+msgstr "Назначение работника"
+
+#: templates/manage_app/worker_detail.html:11
+msgid "Time"
+msgstr "Время"
+
+#: templates/manage_app/worker_detail.html:16
+msgid "No worktimes"
+msgstr "Нет отработанного времени"
+
+#: templates/manage_app/worker_detail.html:20
+msgid "Create new worktime"
+msgstr "Установить время работы"
+
+#: templates/manage_app/workers.html:13
+msgid "No workers"
+msgstr "Нет работников"
+
+#: templates/manage_app/workers.html:15
+msgid "Create workers"
+msgstr "Создать работников"
